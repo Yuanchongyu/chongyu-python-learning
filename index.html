@@ -1,63 +1,283 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Python Craft Lab | Mr. Chongyu's Coding World</title>
-  <meta name="description" content="A Minecraft-inspired 2D Python learning world for young builders." />
-  <style>
-    :root{--bg:#0c120d;--panel:#141d16;--panel2:#0f1711;--line:#2b3a2d;--text:#eef6e9;--muted:#91a18e;--green:#68c94f;--green2:#3d9236;--gold:#ffd75a;--red:#ff7768;--blue:#7ac7ff;--cell:64px}
-    *{box-sizing:border-box} body{margin:0;min-height:100vh;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    button,textarea{font:inherit}.topbar{height:62px;padding:0 18px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line);background:#101712;position:sticky;top:0;z-index:10}.logo{width:30px;height:30px;border-radius:5px;background:linear-gradient(#68c94f 0 36%,#8b653f 36%);box-shadow:inset -4px -4px #0002}.brand{font-weight:900;letter-spacing:-.02em}.brand small{margin-left:9px;font-size:10px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}.progress-wrap{margin-left:auto;display:flex;gap:10px;align-items:center;min-width:190px}.progress{height:7px;background:#263328;border-radius:99px;overflow:hidden;flex:1}.progress i{display:block;height:100%;background:var(--green);transition:.25s}.count{font-size:12px;color:var(--muted)}
-    main{min-height:calc(100vh - 62px);display:grid;grid-template-columns:minmax(520px,58%) minmax(420px,42%)}.left{padding:20px 22px 24px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:14px}.right{background:var(--panel2);display:grid;grid-template-rows:auto 1fr auto;min-height:calc(100vh - 62px)}
-    .lesson{display:flex;gap:12px;align-items:flex-start}.num{width:42px;height:42px;display:grid;place-items:center;border-radius:8px;border:2px solid #6bd45b;background:#17301a;color:#b8ffab;font-weight:900}.eyebrow{font-size:11px;color:#79d769;letter-spacing:.1em;text-transform:uppercase;font-weight:900}.lesson h1{margin:3px 0 0;font-size:24px;line-height:1.1}.mission{margin:0;color:#c4cec1;font-size:14px;line-height:1.55}.mission code,.hint code{background:#243328;color:#c8ffb8;padding:2px 6px;border-radius:5px}
-    .world-card{flex:1;min-height:480px;background:#18251a;border:1px solid #344636;border-radius:16px;padding:14px;box-shadow:0 18px 50px #0004;display:flex;align-items:center;justify-content:center;overflow:auto}.world{position:relative;display:grid;grid-template-columns:repeat(8,var(--cell));grid-template-rows:repeat(6,var(--cell));border:5px solid #1d2b1f;box-shadow:0 0 0 2px #49634d,0 16px 45px #0007;background:#5da94a}.tile{width:var(--cell);height:var(--cell);position:relative;border:1px solid #37753a;background:linear-gradient(135deg,#69be50 0 50%,#61b64b 50%);box-shadow:inset 0 -6px #3f913d}.tile:nth-child(3n){background:linear-gradient(135deg,#72c75a 0 50%,#65bb50 50%)}.tile.wall{background:repeating-linear-gradient(90deg,#7b817b 0 14px,#70766f 14px 28px);box-shadow:inset 0 -7px #515850}.tile.lava{background:repeating-linear-gradient(45deg,#ff7b31 0 10px,#f24c24 10px 20px);box-shadow:inset 0 -6px #a92c18}.tile.water{background:repeating-linear-gradient(0deg,#3fabe0 0 9px,#369bd0 9px 18px);box-shadow:inset 0 -6px #2477a1}.tile.tree::after{content:"";position:absolute;left:18px;top:10px;width:28px;height:36px;background:#245f2f;box-shadow:-10px 7px #2f7a39,10px 7px #2f7a39,0 14px #8a5b35}.goal{position:absolute;width:var(--cell);height:var(--cell);display:grid;place-items:center;font-size:34px;z-index:4;transition:.2s}.goal.hidden{opacity:0;transform:scale(.25)}.player{position:absolute;width:var(--cell);height:var(--cell);z-index:5;transition:left .24s ease,top .24s ease,transform .18s ease;display:grid;place-items:center}.steve{width:34px;height:42px;position:relative;filter:drop-shadow(4px 5px 0 #0004)}.steve .head{position:absolute;left:7px;top:0;width:20px;height:20px;background:#c89261;border:3px solid #5f3b25;box-shadow:inset 0 5px #5c3521}.steve .body{position:absolute;left:5px;top:20px;width:24px;height:15px;background:#2c9ca0;border:3px solid #165f64}.steve .legs{position:absolute;left:7px;top:35px;width:20px;height:8px;background:linear-gradient(90deg,#354c8b 0 45%,transparent 45% 55%,#354c8b 55%)}.steve .arrow{position:absolute;right:-15px;top:13px;color:#fff;font-size:16px;font-weight:900;text-shadow:0 2px #0007}.world-badge{position:absolute;left:8px;top:8px;z-index:7;background:#101812e8;border:1px solid #ffffff22;padding:6px 9px;border-radius:6px;font-size:11px;color:#e5efe1}.hint{font-size:12px;color:#aab8a6}.hint b{color:var(--gold);margin-right:7px}
-    .toolbar{height:60px;padding:0 16px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--line);background:#121a14}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #5edc5b}.file{font:13px ui-monospace,SFMono-Regular,Consolas,monospace;color:#cae3c4}.spacer{flex:1}.btn{border:1px solid #354537;border-radius:8px;padding:9px 13px;cursor:pointer;font-weight:850}.reset{background:#222d24;color:#d8e1d5}.run{background:var(--green);border-color:#5fbc4b;color:#10210e;box-shadow:0 4px 0 #347c2d}.run:active{transform:translateY(2px);box-shadow:0 2px 0 #347c2d}.run:disabled{opacity:.55;cursor:wait}.editor-wrap{position:relative;min-height:0}.lines{position:absolute;left:0;top:0;bottom:0;width:44px;padding:18px 8px;color:#526054;text-align:right;white-space:pre;font:14px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;background:#0d130f;border-right:1px solid #202a22;pointer-events:none}.editor{display:block;width:100%;height:100%;min-height:380px;resize:none;border:0;outline:0;background:#0b110d;color:#e7f2e4;padding:18px 18px 18px 58px;font:14px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4;caret-color:var(--green)}
-    .feedback{border-top:1px solid var(--line);padding:14px 16px 16px;background:#121a14;display:flex;gap:12px;align-items:center;min-height:86px}.face{font-size:28px}.feedback-text{flex:1}.feedback-title{font-weight:900;font-size:13px}.feedback-msg{font-size:12px;color:var(--muted);margin-top:3px}.next{display:none;border:0;border-radius:8px;background:var(--gold);color:#2a2306;font-weight:900;padding:10px 14px;cursor:pointer}.next.show{display:block}
-    .celebrate{position:fixed;inset:0;background:#071009d9;display:none;place-items:center;z-index:30}.celebrate.show{display:grid}.celebrate-card{width:min(420px,90vw);text-align:center;background:#17231a;border:1px solid #3c543f;border-radius:20px;padding:28px;box-shadow:0 30px 90px #0008}.celebrate-card .big{font-size:58px}.celebrate-card h2{margin:8px 0 6px}.celebrate-card p{margin:0;color:var(--muted)}
-    @media(max-width:980px){main{grid-template-columns:1fr}.left{border-right:0;border-bottom:1px solid var(--line)}.world-card{min-height:430px}.right{min-height:650px}.brand small{display:none}}@media(max-width:620px){:root{--cell:48px}.left{padding:14px}.world-card{min-height:360px}.lesson h1{font-size:20px}.progress-wrap{min-width:120px}.count{display:none}}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Python Craft Lab | Mr. Chongyu's Coding World</title>
+<meta name="description" content="A polished 2D pixel-art Python coding adventure for young builders." />
+<style>
+:root{
+  --bg:#0b120c;--panel:#111a13;--panel2:#0d150f;--line:#2e3d31;--text:#f3f7ee;--muted:#9baa9a;
+  --green:#6bd453;--green-dark:#377f31;--gold:#ffd85c;--red:#ff7969;--blue:#62d2ff;
+  --tile:clamp(48px,5.1vw,74px);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,textarea{font:inherit}
+.topbar{height:64px;display:flex;align-items:center;gap:12px;padding:0 18px;border-bottom:1px solid var(--line);background:#101812;position:sticky;top:0;z-index:20}
+.logo{width:32px;height:32px;border-radius:6px;border:2px solid #081009;background:linear-gradient(#73cf58 0 36%,#9b6d42 36% 100%);box-shadow:inset -4px -4px 0 #0002,0 2px 0 #0007}
+.brand{font-weight:950;letter-spacing:-.02em}.brand small{margin-left:9px;color:#93a894;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+.progress-wrap{margin-left:auto;display:flex;align-items:center;gap:10px;min-width:210px}.progress{height:8px;flex:1;border-radius:99px;background:#243126;overflow:hidden}.progress i{display:block;height:100%;width:16.67%;background:linear-gradient(90deg,#51b941,#83e568);transition:.3s}.count{font-size:12px;color:var(--muted)}
+main{min-height:calc(100vh - 64px);display:grid;grid-template-columns:minmax(600px,59%) minmax(440px,41%)}
+.left{padding:18px 20px 18px;display:grid;grid-template-rows:auto auto 1fr auto;gap:12px;border-right:1px solid var(--line);min-height:calc(100vh - 64px)}
+.lesson{display:flex;gap:12px;align-items:flex-start}.num{width:44px;height:44px;display:grid;place-items:center;border-radius:10px;border:2px solid #75d761;background:#17301a;color:#c7ffbb;font-weight:950;box-shadow:inset 0 -3px 0 #0002}.eyebrow{font-size:11px;font-weight:900;color:#7cdf6a;letter-spacing:.1em;text-transform:uppercase}.lesson h1{font-size:25px;line-height:1.05;margin:4px 0 0;letter-spacing:-.03em}.mission{margin:0;color:#cbd4c8;font-size:14px;line-height:1.55}.mission code,.hint code{background:#243329;color:#ccffbe;padding:2px 6px;border-radius:5px}
+.world-shell{min-height:0;display:flex;align-items:center;justify-content:center;border:1px solid #344638;border-radius:18px;background:radial-gradient(circle at 50% 20%,#233c28 0,#17261a 55%,#121d14 100%);box-shadow:0 18px 50px #0005,inset 0 1px #ffffff08;overflow:hidden;padding:18px}
+.world-wrap{position:relative;width:min(100%,calc(10 * var(--tile)));aspect-ratio:10/8;filter:drop-shadow(0 18px 24px #0008)}
+.world{position:absolute;inset:0;display:grid;grid-template-columns:repeat(10,1fr);grid-template-rows:repeat(8,1fr);border:5px solid #1d2a1f;box-shadow:0 0 0 2px #506b54;border-radius:8px;overflow:hidden;background:#5dad49}
+.tile{position:relative;overflow:hidden;border-right:1px solid #356f37;border-bottom:1px solid #356f37;background:#62b94c}
+.tile::before,.tile::after{content:"";position:absolute;pointer-events:none}
+.tile.grass{background:linear-gradient(135deg,#67bd4d 0 50%,#5fb247 50%)}
+.tile.grass::before{inset:0;background:linear-gradient(90deg,transparent 0 18%,#75c85a 18% 26%,transparent 26% 62%,#4d9f3f 62% 69%,transparent 69%),linear-gradient(0deg,transparent 0 69%,#74c95b 69% 76%,transparent 76%);opacity:.45}
+.tile.grass::after{width:7px;height:7px;left:18%;top:19%;background:#87d26b;box-shadow:23px 16px #4e9f3f,44px 34px #79c95d,9px 45px #4b963c}
+.tile.dirt{background:#9a6b3e}.tile.dirt::before{inset:0;background:repeating-linear-gradient(135deg,#9b6c3f 0 8px,#8c5f38 8px 14px,#a77746 14px 19px)}
+.tile.stone{background:#777f7a}.tile.stone::before{inset:0;background:linear-gradient(90deg,#838b85 0 32%,#6c746f 32% 36%,#8d958f 36% 68%,#666e69 68% 72%,#7d8580 72%),linear-gradient(#0000 0 46%,#59605c 46% 52%,#0000 52%)}
+.tile.water{background:#3297c8}.tile.water::before{inset:0;background:repeating-linear-gradient(0deg,#49add7 0 8px,#2c91c1 8px 15px,#60bee0 15px 18px);animation:water 1.8s linear infinite}@keyframes water{to{transform:translateY(18px)}}
+.tile.lava{background:#ee5d29}.tile.lava::before{inset:0;background:repeating-linear-gradient(45deg,#ff8a2e 0 9px,#ef5224 9px 17px,#ffd04d 17px 20px);animation:lava 1.3s linear infinite}@keyframes lava{to{transform:translateX(20px)}}
+.tile.tree::before{width:56%;height:56%;left:22%;top:12%;background:#2b7134;box-shadow:-8px 7px 0 #34813b,8px 7px 0 #245f2d,0 14px 0 #317a38;border-radius:5px}.tile.tree::after{width:18%;height:28%;left:41%;bottom:5%;background:#8a5d38;box-shadow:inset -4px 0 #704729}
+.tile.rock::before{width:56%;height:43%;left:22%;top:30%;background:#7d8580;border-radius:7px 7px 4px 4px;box-shadow:inset -7px -7px #5c635f,inset 6px 5px #969e99}
+.path-overlay{position:absolute;inset:0;pointer-events:none;background:linear-gradient(#0000,#0000)}
+.world-badge{position:absolute;left:11px;top:11px;z-index:9;background:#0c140edc;border:1px solid #ffffff22;border-radius:7px;padding:7px 10px;font-size:11px;color:#edf6e9;backdrop-filter:blur(5px);box-shadow:0 4px 14px #0004}
+.player{position:absolute;width:10%;height:12.5%;z-index:10;left:0;top:0;display:grid;place-items:center;transition:left .23s ease,top .23s ease,transform .18s ease}
+.sprite{position:relative;width:58%;height:74%;image-rendering:pixelated;filter:drop-shadow(4px 5px 0 #0005)}
+.sprite .head{position:absolute;width:68%;height:35%;left:16%;top:0;background:#c88d60;box-shadow:inset 0 8px #5c3a27,inset 6px 0 #d59a6e,inset -5px 0 #a96e48;border:2px solid #4d301f}
+.sprite .face{position:absolute;width:5px;height:5px;background:#152a2f;left:29%;top:19%;box-shadow:14px 0 #152a2f;z-index:3}
+.sprite .body{position:absolute;width:78%;height:35%;left:11%;top:34%;background:#2b9ea5;border:2px solid #145b61;box-shadow:inset -6px 0 #1f7d83}
+.sprite .arm{position:absolute;width:16%;height:28%;top:37%;background:#c88d60;border:2px solid #4d301f}.sprite .arm.l{left:-3%}.sprite .arm.r{right:-3%}
+.sprite .leg{position:absolute;width:28%;height:31%;top:67%;background:#3b4f8f;border:2px solid #1e2b5b}.sprite .leg.l{left:17%}.sprite .leg.r{right:17%}
+.sprite .dir{position:absolute;left:50%;top:-20%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:10px solid #fff;filter:drop-shadow(0 2px #0008)}
+.goal{position:absolute;width:10%;height:12.5%;z-index:8;display:grid;place-items:center;transition:opacity .2s,transform .25s}
+.crystal{position:relative;width:45%;aspect-ratio:1;transform:rotate(45deg);background:linear-gradient(135deg,#b9f5ff 0 16%,#5dd8ff 16% 48%,#1f9fe7 48% 72%,#0d5da7 72%);border:2px solid #d7fbff;box-shadow:0 0 0 3px #1d7eb8,0 0 18px #5fe5ff;animation:float 1.2s ease-in-out infinite}.crystal::after{content:"";position:absolute;width:28%;height:28%;left:15%;top:13%;background:#fff;opacity:.9}@keyframes float{50%{transform:translateY(-5px) rotate(45deg)}}.goal.hidden{opacity:0;transform:scale(.2) rotate(25deg)}
+.spark{position:absolute;width:7px;height:7px;background:#bff5ff;z-index:12;pointer-events:none;animation:spark .55s ease-out forwards}@keyframes spark{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+.shake{animation:shake .3s linear}@keyframes shake{25%{transform:translateX(-7px)}50%{transform:translateX(7px)}75%{transform:translateX(-4px)}}
+.hint{font-size:12px;color:#aab8a6}.hint b{color:var(--gold);margin-right:8px}
+.right{background:var(--panel2);display:grid;grid-template-rows:60px minmax(320px,1fr) 92px;min-height:calc(100vh - 64px)}
+.toolbar{display:flex;align-items:center;gap:9px;padding:0 15px;border-bottom:1px solid var(--line);background:#111a13}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #66dd5e}.file{font:14px ui-monospace,SFMono-Regular,Consolas,monospace;color:#d3e9cd}.spacer{flex:1}.btn{border-radius:9px;padding:10px 14px;font-weight:900;cursor:pointer}.reset{background:#202a22;color:#d8e1d5;border:1px solid #36463a}.run{border:1px solid #6dd257;background:var(--green);color:#10210f;box-shadow:0 4px 0 #367d30}.run:active{transform:translateY(2px);box-shadow:0 2px 0 #367d30}.run:disabled{opacity:.55;cursor:wait}
+.editor-wrap{position:relative;display:grid;grid-template-columns:48px 1fr;min-height:0;background:#09100b}.gutter{padding:18px 8px;text-align:right;white-space:pre;color:#536258;border-right:1px solid #233026;background:#0d140f;font:16px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;user-select:none}.editor{width:100%;height:100%;min-height:420px;resize:none;border:0;outline:0;background:#09100b;color:#eef6e9;padding:18px;font:16px/1.7 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:4;caret-color:#7de264;white-space:pre;overflow:auto}
+.feedback{border-top:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:13px 15px;background:#121b14}.feedback-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:10px;background:#1d2a20;font-size:22px}.feedback-copy{flex:1}.feedback-title{font-weight:950;font-size:14px}.feedback-msg{font-size:12px;color:var(--muted);margin-top:3px}.next{display:none;border:0;border-radius:9px;background:var(--gold);color:#2c2406;font-weight:950;padding:10px 14px;cursor:pointer}.next.show{display:block}
+.celebrate{position:fixed;inset:0;display:none;place-items:center;background:#071009d8;z-index:50}.celebrate.show{display:grid}.celebrate-card{width:min(440px,90vw);text-align:center;background:#18231a;border:1px solid #425a46;border-radius:22px;padding:30px;box-shadow:0 30px 90px #0009}.celebrate-card .big{font-size:58px}.celebrate-card h2{margin:8px 0 5px}.celebrate-card p{margin:0;color:var(--muted)}
+@media(max-width:1050px){main{grid-template-columns:1fr}.left{border-right:0;border-bottom:1px solid var(--line);min-height:auto}.world-shell{min-height:560px}.world-wrap{width:min(92vw,760px)}.right{min-height:640px}.brand small{display:none}}
+@media(max-width:650px){:root{--tile:42px}.topbar{padding:0 12px}.progress-wrap{min-width:120px}.count{display:none}.left{padding:14px}.world-shell{min-height:360px;padding:10px}.lesson h1{font-size:21px}.right{grid-template-rows:58px 430px 100px}.editor{font-size:15px}.gutter{font-size:15px}}
+</style>
 </head>
 <body>
-<header class="topbar"><div class="logo"></div><div class="brand">Python Craft Lab <small>Mr. Chongyu's Coding World</small></div><div class="progress-wrap"><div class="progress"><i id="progressFill"></i></div><span class="count" id="levelCount">1 / 6</span></div></header>
+<header class="topbar">
+  <div class="logo" aria-hidden="true"></div>
+  <div class="brand">Python Craft Lab <small>Mr. Chongyu's Coding World</small></div>
+  <div class="progress-wrap"><div class="progress"><i id="progressFill"></i></div><span class="count" id="levelCount">1 / 6</span></div>
+</header>
 <main>
-  <section class="left">
-    <div class="lesson"><div class="num" id="lessonNum">01</div><div><div class="eyebrow" id="concept"></div><h1 id="title"></h1></div></div>
-    <p class="mission" id="mission"></p>
-    <div class="world-card"><div class="world" id="world"><div class="world-badge" id="worldBadge"></div><div class="goal" id="goal">💎</div><div class="player" id="player"><div class="steve"><div class="head"></div><div class="body"></div><div class="legs"></div><span class="arrow">➜</span></div></div></div></div>
-    <div class="hint"><b>Hint</b><span id="hint"></span></div>
-  </section>
-  <section class="right">
-    <div class="toolbar"><span class="dot"></span><span class="file">adventure.py</span><span class="spacer"></span><button class="btn reset" id="resetBtn">↻ Reset</button><button class="btn run" id="runBtn">▶ Run code</button></div>
-    <div class="editor-wrap"><div class="lines">1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15</div><textarea id="editor" class="editor" spellcheck="false"></textarea></div>
-    <div class="feedback"><div class="face" id="face">⛏️</div><div class="feedback-text"><div class="feedback-title" id="feedbackTitle">Ready to build.</div><div class="feedback-msg" id="feedbackMsg">Run your code and watch Steve follow your instructions.</div></div><button class="next" id="nextBtn">Next level →</button></div>
-  </section>
+<section class="left">
+  <div class="lesson"><div class="num" id="lessonNum">01</div><div><div class="eyebrow" id="concept"></div><h1 id="title"></h1></div></div>
+  <p class="mission" id="mission"></p>
+  <div class="world-shell">
+    <div class="world-wrap" id="worldWrap">
+      <div class="world" id="world"></div>
+      <div class="world-badge" id="worldBadge">Goal: collect the crystal</div>
+      <div class="goal" id="goal"><div class="crystal"></div></div>
+      <div class="player" id="player"><div class="sprite"><div class="head"></div><div class="face"></div><div class="body"></div><div class="arm l"></div><div class="arm r"></div><div class="leg l"></div><div class="leg r"></div><div class="dir"></div></div></div>
+    </div>
+  </div>
+  <div class="hint"><b>Hint</b><span id="hint"></span></div>
+</section>
+<section class="right">
+  <div class="toolbar"><span class="dot"></span><span class="file">adventure.py</span><span class="spacer"></span><button class="btn reset" id="resetBtn">↻ Reset</button><button class="btn run" id="runBtn">▶ Run code</button></div>
+  <div class="editor-wrap"><div class="gutter" id="gutter">1</div><textarea id="editor" class="editor" spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></div>
+  <div class="feedback"><div class="feedback-icon" id="feedbackIcon">⛏️</div><div class="feedback-copy"><div class="feedback-title" id="feedbackTitle">Loading Python…</div><div class="feedback-msg" id="feedbackMsg">The coding engine is getting ready.</div></div><button class="next" id="nextBtn">Next level →</button></div>
+</section>
 </main>
-<div class="celebrate" id="celebrate"><div class="celebrate-card"><div class="big">🎉</div><h2>Level complete!</h2><p id="celebrateText">Your Python code changed the world.</p></div></div>
+<div class="celebrate" id="celebrate"><div class="celebrate-card"><div class="big">🎉</div><h2>Level Complete!</h2><p id="celebrateText">Your Python code changed the world.</p></div></div>
 <script src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js"></script>
 <script>
+const COLS=10, ROWS=8;
 const levels=[
- {concept:'Step One · Function Calls',title:'Reach the crystal',mission:'Steve is 3 blocks away. Each call to <code>move_forward()</code> moves him forward one square.',hint:'Try calling <code>move_forward()</code> three times.',start:[1,4],dir:0,goal:[4,4],code:'# Move Steve forward three squares\nmove_forward()\n',check:s=>s.x===4&&s.y===4},
- {concept:'Step Two · Turning',title:'Turn toward the treasure',mission:'Steve needs to turn before he can reach the crystal. Use <code>turn_left()</code> or <code>turn_right()</code>.',hint:'Move once, turn left, then move twice.',start:[2,4],dir:0,goal:[3,2],code:'# Follow the path\nmove_forward()\nturn_left()\n',check:s=>s.x===3&&s.y===2},
- {concept:'Step Three · Sequencing',title:'Go around the stone wall',mission:'The direct path is blocked. Put your commands in the right order to walk around it.',hint:'Move up, turn right, then cross above the wall.',start:[1,4],dir:3,goal:[5,2],walls:[[2,4],[3,4],[4,4],[5,4]],code:'# Plan a route around the wall\nmove_forward()\nmove_forward()\nturn_right()\n',check:s=>s.x===5&&s.y===2},
- {concept:'Step Four · For Loops',title:'Cross the long meadow',mission:'The crystal is 5 squares away. Use a real Python <code>for</code> loop instead of repeating the same line.',hint:'Try <code>for i in range(5):</code> and indent <code>move_forward()</code>.',start:[1,3],dir:0,goal:[6,3],code:'# Repeat with Python\nfor i in range(5):\n    move_forward()\n',check:s=>s.x===6&&s.y===3},
- {concept:'Step Five · If Statements',title:'Watch out for lava',mission:'There is lava ahead. Use <code>if block_ahead() == "lava":</code> to make a safe decision.',hint:'If there is lava, turn left. Then keep moving toward the crystal.',start:[3,4],dir:3,goal:[0,4],lava:[[3,3]],code:'# Look before you move\nif block_ahead() == "lava":\n    turn_left()\n\n',check:s=>s.x===0&&s.y===4},
- {concept:'Final Challenge · Build Your Own Path',title:'Treasure run',mission:'No starter solution this time. Reach the crystal with as few commands as you can.',hint:'Plan the route on the map first. Then turn your plan into Python.',start:[1,4],dir:0,goal:[6,1],walls:[[3,3],[3,4],[4,3]],water:[[5,2]],code:'# Your plan starts here\n',check:s=>s.x===6&&s.y===1}
+  {
+    concept:'Step One · Function Calls', title:'Reach the crystal',
+    mission:'The crystal is 3 squares away. Each <code>move_forward()</code> moves your adventurer one square.',
+    hint:'Call <code>move_forward()</code> three times.',
+    start:[2,5],dir:0,goal:[5,5],
+    code:`# Move forward three squares
+move_forward()
+`,
+    scenery:{trees:[[0,0],[1,0],[8,1],[9,1],[0,7],[9,7]],rocks:[[7,6]],dirt:[[1,5],[2,5],[3,5],[4,5],[5,5],[6,5]]}
+  },
+  {
+    concept:'Step Two · Turning', title:'Turn toward the treasure',
+    mission:'The path bends. Use <code>turn_left()</code> or <code>turn_right()</code> to face the right way.',
+    hint:'Move 2 squares, turn left, then move 2 more.',
+    start:[2,6],dir:0,goal:[4,4],
+    code:`# Follow the bent path
+move_forward()
+move_forward()
+turn_left()
+`,
+    scenery:{trees:[[0,0],[1,1],[8,0],[9,2]],rocks:[[5,6],[6,6]],dirt:[[2,6],[3,6],[4,6],[4,5],[4,4]]}
+  },
+  {
+    concept:'Step Three · Sequencing', title:'Go around the stone wall',
+    mission:'A stone wall blocks the direct route. Put your commands in the right order to go around it.',
+    hint:'Go up first, then turn right and cross above the wall.',
+    start:[2,6],dir:3,goal:[7,3],
+    code:`# Plan a route around the wall
+move_forward()
+move_forward()
+move_forward()
+turn_right()
+`,
+    scenery:{walls:[[3,5],[4,5],[5,5],[6,5],[7,5]],trees:[[0,0],[9,0],[0,7],[9,7]],dirt:[[2,6],[2,5],[2,4],[2,3],[3,3],[4,3],[5,3],[6,3],[7,3]]}
+  },
+  {
+    concept:'Step Four · For Loops', title:'Cross the long meadow',
+    mission:'The crystal is 6 squares away. Use a real Python <code>for</code> loop instead of repeating the same line.',
+    hint:'Try <code>for i in range(6):</code> and indent <code>move_forward()</code>.',
+    start:[1,4],dir:0,goal:[7,4],
+    code:`# Repeat with Python
+for i in range(6):
+    move_forward()
+`,
+    scenery:{trees:[[0,0],[2,1],[8,1],[9,6]],rocks:[[5,2],[6,6]],dirt:[[1,4],[2,4],[3,4],[4,4],[5,4],[6,4],[7,4]]}
+  },
+  {
+    concept:'Step Five · If Statements', title:'Watch out for lava',
+    mission:'There is lava ahead. Use <code>if block_ahead() == "lava":</code> to make a safe decision.',
+    hint:'If there is lava, turn left. Then move toward the crystal.',
+    start:[4,6],dir:3,goal:[1,6],
+    code:`# Look before you move
+if block_ahead() == "lava":
+    turn_left()
+
+# Then move toward the crystal
+`,
+    scenery:{lava:[[4,5]],rocks:[[5,5],[6,5]],trees:[[0,0],[9,0],[0,7]],dirt:[[4,6],[3,6],[2,6],[1,6]]}
+  },
+  {
+    concept:'Final Challenge · Clean Code', title:'Treasure run',
+    mission:'Plan your own route to the crystal. Try to solve it with clean, short Python.',
+    hint:'Look at the whole map first. Then turn your route into code.',
+    start:[1,6],dir:0,goal:[8,1],
+    code:`# Your treasure-run plan starts here
+`,
+    scenery:{walls:[[4,3],[4,4],[4,5]],water:[[6,2],[6,3]],trees:[[0,0],[1,1],[8,6],[9,7]],rocks:[[3,1],[7,4]],dirt:[[1,6],[2,6],[3,6],[3,5],[3,4],[3,3],[3,2],[4,2],[5,2],[5,1],[6,1],[7,1],[8,1]]}
+  }
 ];
-let current=Math.min(Number(localStorage.getItem('craft-level')||0),levels.length-1),pyodide=null,running=false,baseState=null;
-const $=id=>document.getElementById(id), world=$('world'), player=$('player'), goal=$('goal'), editor=$('editor');
-function tileKey(x,y){return `${x},${y}`}
-function renderWorld(){const l=levels[current];world.querySelectorAll('.tile').forEach(n=>n.remove());for(let y=0;y<6;y++)for(let x=0;x<8;x++){const d=document.createElement('div');d.className='tile';if((l.walls||[]).some(p=>p[0]===x&&p[1]===y))d.classList.add('wall');if((l.lava||[]).some(p=>p[0]===x&&p[1]===y))d.classList.add('lava');if((l.water||[]).some(p=>p[0]===x&&p[1]===y))d.classList.add('water');world.insertBefore(d,world.firstChild)}
- if(l.goal){goal.style.display='grid';goal.classList.remove('hidden');goal.style.left=`calc(${l.goal[0]} * var(--cell))`;goal.style.top=`calc(${l.goal[1]} * var(--cell))`}else goal.style.display='none';
- baseState={x:l.start[0],y:l.start[1],dir:l.dir,blocks:0};placePlayer(baseState,false);$('worldBadge').textContent=l.goal?'Goal: collect the crystal':'Goal: complete the build';}
-function placePlayer(s,animate=true){player.style.left=`calc(${s.x} * var(--cell))`;player.style.top=`calc(${s.y} * var(--cell))`;player.style.transform=`rotate(${s.dir*90}deg)`}
-function renderLevel(){const l=levels[current];$('lessonNum').textContent=String(current+1).padStart(2,'0');$('concept').textContent=l.concept;$('title').textContent=l.title;$('mission').innerHTML=l.mission;$('hint').innerHTML=l.hint;editor.value=l.code;$('progressFill').style.width=`${((current+1)/levels.length)*100}%`;$('levelCount').textContent=`${current+1} / ${levels.length}`;$('face').textContent='⛏️';$('feedbackTitle').textContent='Ready to build.';$('feedbackMsg').textContent='Run your code and watch Steve follow your instructions.';$('nextBtn').classList.remove('show');renderWorld()}
-function reset(){renderWorld();$('face').textContent='⛏️';$('feedbackTitle').textContent='Reset complete.';$('feedbackMsg').textContent='Steve is back at the start.';$('nextBtn').classList.remove('show')}
-async function ensurePython(){if(pyodide)return; $('runBtn').disabled=true;$('feedbackTitle').textContent='Loading Python…';$('feedbackMsg').textContent='First run may take a few seconds.';pyodide=await loadPyodide();$('runBtn').disabled=false;$('feedbackTitle').textContent='Python ready.';$('feedbackMsg').textContent='Press Run code when you are ready.'}
-function pythonHarness(l){const walls=JSON.stringify(l.walls||[]),lava=JSON.stringify(l.lava||[]),water=JSON.stringify(l.water||[]);return `
-x=${l.start[0]}\ny=${l.start[1]}\ndirection=${l.dir}\nblocks=0\nevents=[]\nwalls={tuple(v) for v in ${walls}}\nlava={tuple(v) for v in ${lava}}\nwater={tuple(v) for v in ${water}}\ndirs=[(1,0),(0,1),(-1,0),(0,-1)]\ndef block_ahead():\n    dx,dy=dirs[direction]\n    p=(x+dx,y+dy)\n    if p in lava:return "lava"\n    if p in walls:return "stone"\n    if p in water:return "water"\n    return "grass"\ndef move_forward():\n    global x,y\n    dx,dy=dirs[direction]\n    nx,ny=x+dx,y+dy\n    if nx<0 or nx>7 or ny<0 or ny>5:\n        events.append(("bump",x,y,direction));return\n    if (nx,ny) in walls:\n        events.append(("bump",x,y,direction));return\n    x,y=nx,ny\n    events.append(("move",x,y,direction))\ndef turn_left():\n    global direction\n    direction=(direction+3)%4\n    events.append(("turn",x,y,direction))\ndef turn_right():\n    global direction\n    direction=(direction+1)%4\n    events.append(("turn",x,y,direction))\ndef place_block():\n    global blocks\n    blocks+=1\n    events.append(("block",x,y,direction))\n`}
-async function run(){if(running)return;running=true;$('runBtn').disabled=true;try{await ensurePython();reset();const l=levels[current];const full=pythonHarness(l)+'\n'+editor.value+'\nresult={"x":x,"y":y,"dir":direction,"blocks":blocks,"events":events}\nresult';let result=await pyodide.runPythonAsync(full);let js=result.toJs({dict_converter:Object.fromEntries});result.destroy?.();let events=js.events||[];let s={x:l.start[0],y:l.start[1],dir:l.dir,blocks:0};for(const e of events){const a=Array.from(e);if(a[0]==='move'||a[0]==='turn'||a[0]==='bump'){s={...s,x:a[1],y:a[2],dir:a[3]};placePlayer(s);await new Promise(r=>setTimeout(r,220))}if(a[0]==='block')s.blocks++}s.x=js.x;s.y=js.y;s.dir=js.dir;s.blocks=js.blocks;const ok=l.check(s);if(ok){goal.classList.add('hidden');$('face').textContent='🎉';$('feedbackTitle').textContent='Level complete!';$('feedbackMsg').textContent='Your Python code changed the world.';$('nextBtn').classList.add('show');$('celebrateText').textContent=`You solved ${l.title}.`;$('celebrate').classList.add('show');setTimeout(()=>$('celebrate').classList.remove('show'),950)}else{$('face').textContent='🤔';$('feedbackTitle').textContent='Almost there.';$('feedbackMsg').textContent='Look at Steve and the map. Which instruction should happen next?'}}catch(err){$('face').textContent='🧩';$('feedbackTitle').textContent='Python found a bug.';$('feedbackMsg').textContent=String(err).split('\n').slice(-1)[0]||'Check your code and try again.'}finally{running=false;$('runBtn').disabled=false}}
-$('runBtn').addEventListener('click',run);$('resetBtn').addEventListener('click',reset);$('nextBtn').addEventListener('click',()=>{current=(current+1)%levels.length;localStorage.setItem('craft-level',current);renderLevel()});editor.addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const s=editor.selectionStart;editor.value=editor.value.slice(0,s)+'    '+editor.value.slice(editor.selectionEnd);editor.selectionStart=editor.selectionEnd=s+4}});renderLevel();setTimeout(()=>ensurePython().catch(()=>{}),500);
+
+let current=Math.min(Math.max(Number(localStorage.getItem('craft-level')||0),0),levels.length-1);
+let pyodide=null, running=false, state=null, actions=[];
+const $=id=>document.getElementById(id);
+const world=$('world'), player=$('player'), goal=$('goal'), editor=$('editor');
+const dirs=[[1,0],[0,1],[-1,0],[0,-1]]; // right, down, left, up
+
+function has(list,x,y){return (list||[]).some(([a,b])=>a===x&&b===y)}
+function terrainAt(level,x,y){
+  const s=level.scenery||{};
+  if(has(s.lava,x,y)) return 'lava';
+  if(has(s.water,x,y)) return 'water';
+  if(has(s.walls,x,y)||has(s.rocks,x,y)||has(s.trees,x,y)) return 'stone';
+  return 'grass';
+}
+function blocked(level,x,y){
+  const s=level.scenery||{};
+  return x<0||y<0||x>=COLS||y>=ROWS||has(s.walls,x,y)||has(s.rocks,x,y)||has(s.trees,x,y)||has(s.water,x,y)||has(s.lava,x,y);
+}
+function tileClass(level,x,y){
+  const s=level.scenery||{};
+  let cls='tile grass';
+  if(has(s.dirt,x,y)) cls='tile dirt';
+  if(has(s.walls,x,y)) cls='tile stone';
+  if(has(s.water,x,y)) cls='tile water';
+  if(has(s.lava,x,y)) cls='tile lava';
+  if(has(s.trees,x,y)) cls='tile grass tree';
+  if(has(s.rocks,x,y)) cls='tile grass rock';
+  return cls;
+}
+function renderMap(){
+  const l=levels[current]; world.innerHTML='';
+  for(let y=0;y<ROWS;y++) for(let x=0;x<COLS;x++){
+    const t=document.createElement('div'); t.className=tileClass(l,x,y); world.appendChild(t);
+  }
+  state={x:l.start[0],y:l.start[1],dir:l.dir};
+  goal.classList.remove('hidden');
+  place(goal,l.goal[0],l.goal[1]); place(player,state.x,state.y); setDirection();
+}
+function place(el,x,y){el.style.left=`${x*10}%`;el.style.top=`${y*12.5}%`}
+function setDirection(){const sprite=player.querySelector('.sprite');sprite.style.transform=`rotate(${state.dir*90}deg)`}
+function updateGutter(){
+  const n=Math.max(12,editor.value.split('\n').length+2);
+  $('gutter').textContent=Array.from({length:n},(_,i)=>i+1).join('\n');
+}
+function setFeedback(kind,title,msg){
+  const icons={ready:'⛏️',success:'✨',retry:'🧭',error:'🐞',loading:'⏳'};
+  $('feedbackIcon').textContent=icons[kind]||'⛏️';$('feedbackTitle').textContent=title;$('feedbackMsg').textContent=msg;
+}
+function renderLevel(){
+  const l=levels[current];
+  $('lessonNum').textContent=String(current+1).padStart(2,'0');$('concept').textContent=l.concept;$('title').textContent=l.title;$('mission').innerHTML=l.mission;$('hint').innerHTML=l.hint;
+  $('levelCount').textContent=`${current+1} / ${levels.length}`;$('progressFill').style.width=`${((current+1)/levels.length)*100}%`;$('worldBadge').textContent='Goal: reach the crystal';
+  editor.value=l.code;updateGutter();$('nextBtn').classList.remove('show');renderMap();setFeedback(pyodide?'ready':'loading',pyodide?'Python is ready.':'Loading Python…',pyodide?'Press Run Code and watch your program come alive.':'The coding engine is getting ready.');
+}
+window.recordAction=(name)=>{actions.push(name)};
+function applyActionSim(name,sim){
+  if(name==='left'){sim.dir=(sim.dir+3)%4;return {ok:true}}
+  if(name==='right'){sim.dir=(sim.dir+1)%4;return {ok:true}}
+  if(name==='move'){
+    const [dx,dy]=dirs[sim.dir],nx=sim.x+dx,ny=sim.y+dy;
+    if(blocked(levels[current],nx,ny)) return {ok:false,hit:true};
+    sim.x=nx;sim.y=ny;return {ok:true};
+  }
+  return {ok:true};
+}
+async function animateActions(){
+  state={x:levels[current].start[0],y:levels[current].start[1],dir:levels[current].dir};place(player,state.x,state.y);setDirection();
+  for(const a of actions){
+    if(a==='left'){state.dir=(state.dir+3)%4;setDirection();await wait(190);continue}
+    if(a==='right'){state.dir=(state.dir+1)%4;setDirection();await wait(190);continue}
+    if(a==='move'){
+      const [dx,dy]=dirs[state.dir],nx=state.x+dx,ny=state.y+dy;
+      if(blocked(levels[current],nx,ny)){player.classList.remove('shake');void player.offsetWidth;player.classList.add('shake');setFeedback('retry','That path is blocked.','Try a different turn or check what is ahead.');await wait(330);continue}
+      state.x=nx;state.y=ny;place(player,state.x,state.y);await wait(240);
+    }
+  }
+}
+function wait(ms){return new Promise(r=>setTimeout(r,ms))}
+function sparkles(){
+  const wrap=$('worldWrap'),r=goal.getBoundingClientRect(),wr=wrap.getBoundingClientRect();
+  for(let i=0;i<10;i++){const s=document.createElement('i');s.className='spark';s.style.left=`${r.left-wr.left+r.width/2}px`;s.style.top=`${r.top-wr.top+r.height/2}px`;s.style.setProperty('--dx',`${Math.cos(i/10*Math.PI*2)*55}px`);s.style.setProperty('--dy',`${Math.sin(i/10*Math.PI*2)*55}px`);wrap.appendChild(s);setTimeout(()=>s.remove(),650)}
+}
+async function runCode(){
+  if(!pyodide||running)return;running=true;$('runBtn').disabled=true;$('nextBtn').classList.remove('show');goal.classList.remove('hidden');actions=[];
+  setFeedback('ready','Running your Python…','Watch the world follow each command.');
+  const l=levels[current];
+  const setup=`
+from js import recordAction
+
+def move_forward():
+    recordAction('move')
+
+def turn_left():
+    recordAction('left')
+
+def turn_right():
+    recordAction('right')
+
+def block_ahead():
+    return "${terrainAheadForStart()}"
+`;
+  try{
+    await pyodide.runPythonAsync(setup+'\n'+editor.value);
+    await animateActions();
+    const success=state.x===l.goal[0]&&state.y===l.goal[1];
+    if(success){goal.classList.add('hidden');sparkles();setFeedback('success','Level complete!','Your code changed the world.');$('nextBtn').classList.add('show');$('celebrateText').textContent=current===levels.length-1?'You finished the Python Craft Lab adventure!':'You reached the crystal with Python!';$('celebrate').classList.add('show');setTimeout(()=>$('celebrate').classList.remove('show'),1050)}
+    else setFeedback('retry','Almost there.','Your adventurer did not reach the crystal yet. Change the code and try again.');
+  }catch(err){
+    const raw=String(err);const match=raw.match(/line (\d+)/i);setFeedback('error','Python found a bug.',match?`Check line ${match[1]}. Fix it and try again.`:'Check your spelling and indentation, then try again.');
+  }finally{running=false;$('runBtn').disabled=false}
+}
+function terrainAheadForStart(){
+  const l=levels[current],d=dirs[l.dir],x=l.start[0]+d[0],y=l.start[1]+d[1];return terrainAt(l,x,y);
+}
+function reset(){editor.value=levels[current].code;updateGutter();renderMap();$('nextBtn').classList.remove('show');setFeedback('ready','Reset complete.','Your starter code and world are back.');}
+$('runBtn').addEventListener('click',runCode);$('resetBtn').addEventListener('click',reset);$('nextBtn').addEventListener('click',()=>{current=(current+1)%levels.length;localStorage.setItem('craft-level',current);renderLevel()});editor.addEventListener('input',updateGutter);$('celebrate').addEventListener('click',()=>$('celebrate').classList.remove('show'));
+renderLevel();
+(async()=>{try{pyodide=await loadPyodide();setFeedback('ready','Python is ready.','Press Run Code and watch your program come alive.')}catch(e){setFeedback('error','Python could not load.','Refresh the page and try again.')}})();
 </script>
 </body>
 </html>
